@@ -16,6 +16,12 @@ public class GunScript : MonoBehaviour
 
     public float weaponSwayAmount;
 
+    public Vector3 normalLocalPosition;
+    public Vector3 aimingLocalPosition;
+
+    public float aimSmooting = 10;
+
+    public CameraRecoil cameraRecoil;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,6 +33,8 @@ public class GunScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        DetermineAim();
+
         if (_input.shoot)
         {
             Shoot();
@@ -41,20 +49,37 @@ public class GunScript : MonoBehaviour
     {
         //Debug.Log("shoot");'
         Recoil();
-        GameObject bullet = Instantiate(bulletPrefab, bulletPoint.transform.position, transform.rotation);
-        bullet.GetComponent<Rigidbody>().AddForce(transform.right * bulletSpeed);
+        
+       //GameObject bullet = Instantiate(bulletPrefab, bulletPoint.transform.position, transform.rotation);
+        //bullet.GetComponent<Rigidbody>().AddForce(transform.right * bulletSpeed);
 
 
         RaycastHit bulletHit;
          if (Physics.Raycast(bulletPoint.transform.position, bulletPoint.transform.right * (-1f), out bulletHit, 1000f))
         {
             Debug.DrawRay(bulletPoint.transform.position, bulletPoint.transform.right * (-1000f), Color.red, 5f);
-            //Debug.Log("Hit: " + bulletHit.collider.name);
+            Debug.Log("Hit: " + bulletHit.collider.name);
+            if(bulletHit.collider.GetComponent<EnemyScript>() != null)
+            {
+                bulletHit.collider.gameObject.SetActive(false);
+            }
         }
         else
         {
             Debug.DrawRay(bulletPoint.transform.position, bulletPoint.transform.right * (-1f), Color.green, 0.2f);
         }
+
+    }
+
+
+    public void DetermineAim()
+    {
+        Vector3 target = normalLocalPosition;
+        if (Input.GetMouseButton(1)) target = aimingLocalPosition;
+
+        Vector3 desiredPosition = Vector3.Lerp(transform.localPosition, target, Time.deltaTime * aimSmooting);
+
+        transform.localPosition = desiredPosition;
 
     }
 
