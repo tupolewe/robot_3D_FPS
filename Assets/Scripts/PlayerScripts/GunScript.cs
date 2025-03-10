@@ -5,10 +5,8 @@ using System.Xml.Serialization;
 public class GunScript : MonoBehaviour
 {
 
-    private StarterAssetsInputs _input;
-    public GameObject bulletPrefab;
+    public StarterAssetsInputs _input;
     public GameObject bulletPoint;
-    [SerializeField] private float bulletSpeed;
 
     public bool randomizeRecoil;
     public Vector2 randomRecoilConstrainsts;
@@ -21,13 +19,22 @@ public class GunScript : MonoBehaviour
 
     public float aimSmooting = 10;
 
-    public CameraRecoil cameraRecoil;
+    
+
+    public float recoilForce;
+
+    public PlayerMovement playerMovement;
+
+
+    public float recoilX;
+    public float recoilY;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _input = transform.root.GetComponent<StarterAssetsInputs>();
+        Debug.Log("input");
     }
 
     // Update is called once per frame
@@ -37,6 +44,7 @@ public class GunScript : MonoBehaviour
 
         if (_input.shoot)
         {
+            Debug.Log("shoot");
             Shoot();
             _input.shoot = false;
         }
@@ -47,13 +55,9 @@ public class GunScript : MonoBehaviour
 
     public void Shoot()
     {
-        //Debug.Log("shoot");'
         Recoil();
-        
-       //GameObject bullet = Instantiate(bulletPrefab, bulletPoint.transform.position, transform.rotation);
-        //bullet.GetComponent<Rigidbody>().AddForce(transform.right * bulletSpeed);
-
-
+        playerMovement.ApplyRecoil(recoilX, recoilY);
+        Debug.Log("shoot2");
         RaycastHit bulletHit;
          if (Physics.Raycast(bulletPoint.transform.position, bulletPoint.transform.right * (-1f), out bulletHit, 1000f))
         {
@@ -85,7 +89,7 @@ public class GunScript : MonoBehaviour
 
     public void Recoil()
     {
-        transform.localPosition -= Vector3.forward * 0.1f;
+        transform.localPosition -= Vector3.forward * recoilForce;
     }
 
     public void RecoilSway()

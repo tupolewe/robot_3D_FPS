@@ -2,29 +2,51 @@ using UnityEngine;
 
 public class CameraRecoil : MonoBehaviour
 {
-    public Transform cameraTransform; // Assign your camera (or player object)
-    public float recoilAmount = 2f; // How much the camera moves
-    public float recoilSpeed = 10f; // How fast it returns
-    public float recoilRecovery = 5f; // How fast it recovers
+    public Transform cameraTransform; // Assign your FPS Camera
+    public float baseRecoilAmount = 1f; // Starting recoil strength
+    public float maxRecoilAmount = 5f; // Maximum recoil strength
+    public float recoilSpeed = 10f; // Speed of recoil movement
+    public float recoilRecovery = 5f; // Speed of recoil resetting
 
-    private Vector3 originalRotation;
-    private Vector3 targetRotation;
+    public Vector3 currentRotation;
+    public Vector3 targetRotation;
+    public float currentRecoil; // Tracks increasing recoil
+    public float fireRate = 0.1f; // Time between shots
+    public float timeSinceLastShot = 0f;
 
     void Start()
     {
-        originalRotation = cameraTransform.localEulerAngles;
+        currentRotation = cameraTransform.localEulerAngles;
     }
 
     void Update()
     {
-        // Smoothly lerp recoil effect back to original position
+        // Time tracking for recoil decay
+        timeSinceLastShot += Time.deltaTime;
+
+        // Reduce recoil over time if not shooting
+        if (timeSinceLastShot > fireRate)
+        {
+            currentRecoil = Mathf.Lerp(currentRecoil, baseRecoilAmount, recoilRecovery * Time.deltaTime);
+        }
+
+        // Smoothly move towards target rotation
+        currentRotation = Vector3.Lerp(currentRotation, targetRotation, recoilSpeed * Time.deltaTime);
+        cameraTransform.localRotation = Quaternion.Euler(currentRotation);
+
+        // Slowly reset target rotation
         targetRotation = Vector3.Lerp(targetRotation, Vector3.zero, recoilRecovery * Time.deltaTime);
-        cameraTransform.localEulerAngles = originalRotation + targetRotation;
     }
 
     public void ApplyRecoil()
     {
-        // Apply recoil in a random upward direction
-        targetRotation += new Vector3(-recoilAmount, Random.Range(-recoilAmount / 2, recoilAmount / 2), 0);
+        // Increase recoil the longer we hold fire
+        currentRecoil = Mathf.Clamp(currentRecoil + 0.5f, baseRecoilAmount, maxRecoilAmount);
+
+        // Apply recoil with slight randomness
+        targetRotation += new Vector3(-currentRecoil, Random.Range(-currentRecoil / 2, currentRecoil / 2), 0);
+
+        // Reset shot timer
+        timeSinceLastShot = 0f;
     }
 }

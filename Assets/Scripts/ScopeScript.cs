@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DynamicScope : MonoBehaviour
+public class ScopeScript : MonoBehaviour
 {
     public Transform firePoint; 
     public RectTransform scopeUI;
