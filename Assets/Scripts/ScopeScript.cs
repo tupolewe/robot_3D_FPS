@@ -3,10 +3,9 @@ using UnityEngine.UI;
 
 public class ScopeScript : MonoBehaviour
 {
-    public Transform firePoint; 
     public RectTransform scopeUI;
     public Camera mainCamera;
-    public float range = 500f;
+    public float range = 1000f;
     public LayerMask bulletLayer;
 
     void Update()
@@ -16,26 +15,29 @@ public class ScopeScript : MonoBehaviour
 
     void AdjustScope()
     {
+        if (mainCamera == null)
+        {
+            Debug.LogError("ScopeScript: No Camera assigned!");
+            return;
+        }
+
+        Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
         Vector3 hitPoint;
 
-       
-        if (Physics.Raycast(firePoint.position, firePoint.transform.right * (-1f), out hit, range))
+        if (Physics.Raycast(ray, out hit, range, bulletLayer))
         {
-            //Debug.DrawRay(firePoint.position, firePoint.transform.right * (-1), Color.red, 5f); 
-            hitPoint = hit.point; 
+            hitPoint = hit.point;
         }
         else
         {
-            //Debug.DrawRay(firePoint.position, firePoint.transform.right * (-1), Color.red, 5f);
-            hitPoint = firePoint.position + firePoint.forward * range; 
+            hitPoint = ray.origin + ray.direction * range; 
         }
 
-        
         Vector3 screenPoint = mainCamera.WorldToScreenPoint(hitPoint);
 
-       
-        scopeUI.position = screenPoint;
+        if (screenPoint.z > 0) 
+            scopeUI.position = screenPoint;
+        }
     }
-}
 
