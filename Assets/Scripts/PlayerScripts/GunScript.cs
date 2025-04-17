@@ -58,7 +58,7 @@ public class GunScript : MonoBehaviour
             Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red, 1f);
             Debug.Log("Hit: " + hit.collider.name);
 
-            if (hit.collider.GetComponent<EnemyScript>() != null)
+            if (hit.collider.GetComponent<Enemy>() != null)
             {
                 hit.collider.gameObject.SetActive(false);
             }

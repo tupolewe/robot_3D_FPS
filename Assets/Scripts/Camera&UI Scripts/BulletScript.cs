@@ -21,7 +21,7 @@ public class BulletScript : MonoBehaviour
         //Debug.Log(collider.gameObject);
         enemy = collider.gameObject;
 
-        if (enemy.GetComponent<EnemyScript>() != null)
+        if (enemy.GetComponent<Enemy>() != null)
         {
             Debug.Log("trafienie przeciwmika");
             enemy.SetActive(false);
