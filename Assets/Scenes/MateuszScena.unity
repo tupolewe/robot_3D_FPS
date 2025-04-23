@@ -533,8 +533,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 4
+  m_Acceleration: 9
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -561,8 +561,9 @@ MonoBehaviour:
   agent: {fileID: 0}
   path: {fileID: 448355603}
   currentState: 
+  player: {fileID: 0}
   sightDistance: 20
-  fieldOfView: 85
+  fieldOfView: 120
 --- !u!114 &1018371288
 MonoBehaviour:
   m_ObjectHideFlags: 0

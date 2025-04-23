@@ -1,36 +1,35 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AttackState : BaseState
 {
-    public int waitBeforeSearch;
-    private float moveTimer;
     private float losePlayerTimer;
 
     public override void Enter()
     {
-        
+        // Optional: set initial chase destination
+        enemy.Agent.SetDestination(enemy.player.transform.position);
     }
 
     public override void Exit()
     {
-        
+        losePlayerTimer = 0f;
     }
 
     public override void Perform()
     {
-       if (enemy.CanSeePlayer())
+        Debug.Log(losePlayerTimer);
+        if (enemy.CanSeePlayer())
         {
-            losePlayerTimer = 0;
-            moveTimer += Time.deltaTime;
-            if (moveTimer > Random.Range(3, 7))
-            {
-                enemy.Agent.SetDestination(enemy.transform.position + (Random.insideUnitSphere * 5));
-            }
+            losePlayerTimer = 0f;
+
+            // Continuously update destination
+            enemy.Agent.SetDestination(enemy.player.transform.position);
         }
-       else
+        else
         {
-            losePlayerTimer -= Time.deltaTime;
-            if (losePlayerTimer > 8)
+            losePlayerTimer += Time.deltaTime;
+            if (losePlayerTimer > 10f)
             {
                 stateMachine.ChangeState(new PatrolState());
             }

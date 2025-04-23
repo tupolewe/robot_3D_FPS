@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private string currentState;
 
-    private GameObject player;
+    public GameObject player;
     public float sightDistance;
     public float fieldOfView;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
