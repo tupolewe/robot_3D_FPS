@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     public GameObject player;
     public float sightDistance;
     public float fieldOfView;
+    public Vector3 lastKnownPlayerPosition;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -46,7 +47,10 @@ public class Enemy : MonoBehaviour
                     if(Physics.Raycast(ray, out hitInfo, sightDistance)) 
                     {
                         Debug.DrawLine(ray.origin, ray.direction * sightDistance);
-                        if (hitInfo.transform.gameObject == player) { return true; }
+                        if (hitInfo.transform.gameObject == player) 
+                        {   lastKnownPlayerPosition = player.transform.position;
+                            return true;
+                        }
                     }
                     
                 }

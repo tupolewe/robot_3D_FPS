@@ -18,20 +18,17 @@ public class AttackState : BaseState
 
     public override void Perform()
     {
-        Debug.Log(losePlayerTimer);
         if (enemy.CanSeePlayer())
         {
             losePlayerTimer = 0f;
-
-            // Continuously update destination
             enemy.Agent.SetDestination(enemy.player.transform.position);
         }
         else
         {
             losePlayerTimer += Time.deltaTime;
-            if (losePlayerTimer > 10f)
+            if (losePlayerTimer > 6f)
             {
-                stateMachine.ChangeState(new PatrolState());
+                stateMachine.ChangeState(new SearchState());
             }
         }
     }
