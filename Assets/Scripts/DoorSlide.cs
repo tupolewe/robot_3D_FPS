@@ -10,8 +10,8 @@ public class SlidingDoor : MonoBehaviour
     public AudioClip closeSound;  // DŸwiêk zamykania
     private AudioSource audioSource;
 
-    private Vector3 closedPosition;
-    private Vector3 openPosition;
+    public Vector3 closedPosition;
+    public Vector3 openPosition;
     private bool isOpening = false;
     private bool playerInTrigger = false;
     private float closeTimer = 0f;
