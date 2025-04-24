@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent agent;
 
     public AIPath path;
+    public AIPath searchPath;
     public NavMeshAgent Agent { get => agent; }
 
     [SerializeField] private string currentState;
