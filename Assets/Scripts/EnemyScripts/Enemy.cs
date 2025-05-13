@@ -77,16 +77,16 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
-    public void OnTriggerEnter(Collider collider)
-    {
-        if(collider.CompareTag("Player"))
-        {
-            Debug.Log("heard");
-            hasHeardPlayer = true;
-            lastKnownPlayerPosition = player.transform.position;
+    //public void OnTriggerEnter(Collider collider)
+    //{
+    //    if(collider.CompareTag("Player"))
+    //    {
+    //        Debug.Log("heard");
+    //        hasHeardPlayer = true;
+    //        lastKnownPlayerPosition = player.transform.position;
 
-        }
-    }
+    //    }
+    //}
 
   public void TakeDamege()
     {
@@ -100,7 +100,7 @@ public class Enemy : MonoBehaviour
 
         if(enemyHealth <= 0)
         {
-            Debug.Log("deathenemy");
+            this.gameObject.SetActive(false);
         }
     }
 }

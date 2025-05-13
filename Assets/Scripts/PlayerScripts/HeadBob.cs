@@ -4,8 +4,10 @@ public class HeadBob : MonoBehaviour
 {
     [Header("Configuration")]
     [SerializeField] private bool _enable = true;
-    [SerializeField, Range(0, 0.1f)] private float _Amplitude = 0.015f; [SerializeField, Range(0, 30)] private float _frequency = 10.0f;
-    [SerializeField] private Transform _camera = null; [SerializeField] private Transform _cameraHolder = null;
+    [SerializeField, Range(0, 0.1f)] private float _Amplitude = 0.015f;
+    [SerializeField, Range(0, 30)] private float _frequency = 10.0f;
+    [SerializeField] private Transform _camera = null;
+    [SerializeField] private Transform _cameraHolder = null;
 
     private float _toggleSpeed = 3.0f;
     private Vector3 _startPos;
@@ -56,3 +58,4 @@ public class HeadBob : MonoBehaviour
         _camera.localPosition = Vector3.Lerp(_camera.localPosition, _startPos, 1 * Time.deltaTime);
     }
 }
+
