@@ -630,6 +630,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 490721918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1660445633 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 976674739279027325, guid: f9804229761b4e64fbc0ca8af32ba462, type: 3}
+  m_PrefabInstance: {fileID: 1500718218784717709}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1660445641
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660445633}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 4.9
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1710828927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1256,10 +1282,21 @@ PrefabInstance:
       propertyPath: path
       value: 
       objectReference: {fileID: 448355603}
+    - target: {fileID: 5598463083105836229, guid: f9804229761b4e64fbc0ca8af32ba462, type: 3}
+      propertyPath: enemyHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598463083105836229, guid: f9804229761b4e64fbc0ca8af32ba462, type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 976674739279027325, guid: f9804229761b4e64fbc0ca8af32ba462, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1660445641}
   m_SourcePrefab: {fileID: 100100000, guid: f9804229761b4e64fbc0ca8af32ba462, type: 3}
 --- !u!1001 &2247305859104337194
 PrefabInstance:

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,7 +22,22 @@ public class AttackState : BaseState
         if (enemy.CanSeePlayer())
         {
             losePlayerTimer = 0f;
-            enemy.Agent.SetDestination(enemy.player.transform.position);
+            float distanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.player.transform.position);
+
+            if(distanceToPlayer > enemy.attackDistance) 
+            {
+                enemy.Agent.isStopped = false;
+                enemy.Agent.SetDestination(enemy.player.transform.position);
+            }
+            else
+            {
+                enemy.Agent.isStopped = true;
+                Attack();
+            }
+            
+            
+
+
         }
         else
         {
@@ -32,4 +48,12 @@ public class AttackState : BaseState
             }
         }
     }
+
+
+    public void Attack()
+    {
+        Debug.Log("Attack");
+    }
+
+  
 }

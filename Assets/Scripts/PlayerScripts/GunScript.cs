@@ -4,7 +4,7 @@ using StarterAssets;
 public class GunScript : MonoBehaviour
 {
     public StarterAssetsInputs _input;
-    public Camera playerCamera; // Reference to the Player Camera
+    public Camera playerCamera; 
 
     public bool randomizeRecoil;
     public Vector2 randomRecoilConstraints;
@@ -60,7 +60,9 @@ public class GunScript : MonoBehaviour
 
             if (hit.collider.GetComponent<Enemy>() != null)
             {
-                hit.collider.gameObject.SetActive(false);
+
+                Enemy enemy = hit.collider.GetComponent<Enemy>();
+                enemy.TakeDamege();
             }
         }
         else

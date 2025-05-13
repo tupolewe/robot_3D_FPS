@@ -18,7 +18,12 @@ public class PatrolState : BaseState
     public override void Perform()
     {
         PatrolCycle();
-        if(enemy.CanSeePlayer()) 
+
+        if (enemy.CanSeePlayer())
+        {
+            stateMachine.ChangeState(new AttackState());
+        }
+        else if (enemy.CanHearPlayer())
         {
             stateMachine.ChangeState(new AttackState());
         }

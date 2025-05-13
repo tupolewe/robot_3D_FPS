@@ -1,8 +1,11 @@
+using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    public int enemyHealth;
 
     public StateMachine stateMachine;
     public NavMeshAgent agent;
@@ -12,12 +15,14 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent Agent { get => agent; }
 
     [SerializeField] private string currentState;
+    public bool hasHeardPlayer = false;
 
     public GameObject player;
     public float sightDistance;
     public float fieldOfView;
     public Vector3 lastKnownPlayerPosition;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public float attackDistance;
+    
     void Start()
     {
         stateMachine = GetComponent<StateMachine>();
@@ -26,7 +31,7 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         CanSeePlayer();
@@ -59,5 +64,43 @@ public class Enemy : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public bool CanHearPlayer()
+    {
+        if (hasHeardPlayer)
+        {
+            hasHeardPlayer = false;
+            lastKnownPlayerPosition = player.transform.position;
+            return true;
+        }
+        return false;
+    }
+
+    public void OnTriggerEnter(Collider collider)
+    {
+        if(collider.CompareTag("Player"))
+        {
+            Debug.Log("heard");
+            hasHeardPlayer = true;
+            lastKnownPlayerPosition = player.transform.position;
+
+        }
+    }
+
+  public void TakeDamege()
+    {
+        int damage = UnityEngine.Random.Range(5, 12);
+
+        enemyHealth -= damage;
+        hasHeardPlayer = true;
+        lastKnownPlayerPosition = player.transform.position;
+
+        Debug.Log(enemyHealth);
+
+        if(enemyHealth <= 0)
+        {
+            Debug.Log("deathenemy");
+        }
     }
 }
