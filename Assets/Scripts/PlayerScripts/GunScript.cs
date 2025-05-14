@@ -4,7 +4,7 @@ using StarterAssets;
 public class GunScript : MonoBehaviour
 {
     public StarterAssetsInputs _input;
-    public Camera playerCamera; 
+    public Camera playerCamera;
 
     public bool randomizeRecoil;
     public Vector2 randomRecoilConstraints;
@@ -16,10 +16,16 @@ public class GunScript : MonoBehaviour
     public float aimSmoothing = 10f;
     public float recoilForce;
 
+    public float fireRate = 0.2f; 
+    public float nextTimeToFire = 0f;
+
     public PlayerMovement playerMovement;
 
     public float recoilX;
     public float recoilY;
+
+    public AudioClip shotSound;
+    public AudioSource src;
 
     void Start()
     {
@@ -35,9 +41,10 @@ public class GunScript : MonoBehaviour
     {
         DetermineAim();
 
-        if (_input.shoot)
+        if (_input.shoot && Time.time >= nextTimeToFire)
         {
             Shoot();
+            nextTimeToFire = Time.time + fireRate;
             _input.shoot = false;
         }
 
@@ -69,6 +76,9 @@ public class GunScript : MonoBehaviour
         {
             Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.green, 0.2f);
         }
+
+        src.pitch = Random.Range(1.1f, 1.2f);
+        src.PlayOneShot(shotSound);
     }
 
     public void DetermineAim()
@@ -89,4 +99,7 @@ public class GunScript : MonoBehaviour
         Vector2 mouseAxis = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
         transform.localPosition += (Vector3)mouseAxis * weaponSwayAmount / 1000f;
     }
+
+   
+
 }
