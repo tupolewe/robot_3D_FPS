@@ -12,7 +12,9 @@ public class HeadBob : MonoBehaviour
     private float _toggleSpeed = 3.0f;
     private Vector3 _startPos;
     private CharacterController _controller;
+    private float lastSin;
 
+    public AudioSource src;
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
@@ -29,8 +31,12 @@ public class HeadBob : MonoBehaviour
     private Vector3 FootStepMotion()
     {
         Vector3 pos = Vector3.zero;
-        pos.y += Mathf.Sin(Time.time * _frequency) * _Amplitude;
+        float currentSin = Mathf.Sin(Time.time * _frequency);
+        if(currentSin > lastSin && currentSin < 0)
+            src.Play();
+        pos.y +=  currentSin * _Amplitude;
         pos.x += Mathf.Cos(Time.time * _frequency / 2) * _Amplitude * 2;
+        lastSin = currentSin;
         return pos;
     }
     private void CheckMotion()

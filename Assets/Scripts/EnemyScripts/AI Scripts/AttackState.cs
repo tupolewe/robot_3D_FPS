@@ -31,6 +31,7 @@ public class AttackState : BaseState
             }
             else
             {
+                enemy.Agent.velocity = new Vector3(0f, 0f, 0f);
                 enemy.Agent.isStopped = true;
                 Attack();
             }
