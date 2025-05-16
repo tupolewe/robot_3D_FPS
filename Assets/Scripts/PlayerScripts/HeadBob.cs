@@ -15,6 +15,7 @@ public class HeadBob : MonoBehaviour
     private float lastSin;
 
     public AudioSource src;
+    public AudioClip clip;
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
@@ -32,8 +33,8 @@ public class HeadBob : MonoBehaviour
     {
         Vector3 pos = Vector3.zero;
         float currentSin = Mathf.Sin(Time.time * _frequency);
-        if(currentSin > lastSin && currentSin < 0)
-            src.Play();
+        if (currentSin > lastSin && currentSin < 0)
+            //src.Play();
         pos.y +=  currentSin * _Amplitude;
         pos.x += Mathf.Cos(Time.time * _frequency / 2) * _Amplitude * 2;
         lastSin = currentSin;
