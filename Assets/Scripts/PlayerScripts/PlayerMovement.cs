@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 targetRecoilRotation;
     public float recoilRecoverySpeed = 5f;
 
+    public HeadBob headBob;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -83,6 +85,17 @@ public class PlayerMovement : MonoBehaviour
         currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
 
         velocityY += gravity * 2f * Time.deltaTime;
+
+        if (Input.GetKey(KeyCode.LeftShift)) 
+        {
+           speed = 9;
+            headBob._frequency = 20f;
+        }
+        else 
+        {
+            speed = 6;
+            headBob._frequency = 16f;
+        }
 
         Vector3 velocity = (transform.forward * currentDir.y + transform.right * currentDir.x) * speed + Vector3.up * velocityY;
 

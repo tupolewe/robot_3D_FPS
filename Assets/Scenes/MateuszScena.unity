@@ -480,6 +480,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &523777688 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7035926328685703703, guid: bbe9c0fc950d75142990e3c42a93f082, type: 3}
+  m_PrefabInstance: {fileID: 2247305859104337194}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523777664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7405140f957aa140b57d3eab175dcf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &560367677 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 182721938088751930, guid: bbe9c0fc950d75142990e3c42a93f082, type: 3}
@@ -1468,6 +1479,10 @@ PrefabInstance:
       propertyPath: path
       value: 
       objectReference: {fileID: 448355603}
+    - target: {fileID: 797064515501985979, guid: ae4824e9417e35e4384de83ca459dcfd, type: 3}
+      propertyPath: attackDistance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1935102066704925692, guid: ae4824e9417e35e4384de83ca459dcfd, type: 3}
       propertyPath: m_Speed
       value: 8.65
@@ -1550,6 +1565,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: e8ccf149c358b1e4e9ad1122b8847d6d, type: 3}
     - target: {fileID: 5228280978894833482, guid: bbe9c0fc950d75142990e3c42a93f082, type: 3}
+      propertyPath: headBob
+      value: 
+      objectReference: {fileID: 523777688}
+    - target: {fileID: 5228280978894833482, guid: bbe9c0fc950d75142990e3c42a93f082, type: 3}
       propertyPath: moveSmoothTime
       value: 0
       objectReference: {fileID: 0}
@@ -1583,7 +1602,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7035926328685703703, guid: bbe9c0fc950d75142990e3c42a93f082, type: 3}
       propertyPath: _Amplitude
-      value: 0.007
+      value: 0.012
       objectReference: {fileID: 0}
     - target: {fileID: 7035926328685703703, guid: bbe9c0fc950d75142990e3c42a93f082, type: 3}
       propertyPath: _frequency
