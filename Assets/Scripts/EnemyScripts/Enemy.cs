@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
     public float fieldOfView;
     public Vector3 lastKnownPlayerPosition;
     public float attackDistance;
+
+    
     
     void Start()
     {

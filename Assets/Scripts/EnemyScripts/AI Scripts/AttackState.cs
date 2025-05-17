@@ -6,6 +6,11 @@ public class AttackState : BaseState
 {
     private float losePlayerTimer;
 
+    public float attackCooldown = 2f;
+    public float lastAttackTime;
+
+    
+
     public override void Enter()
     {
         // Optional: set initial chase destination
@@ -53,7 +58,44 @@ public class AttackState : BaseState
 
     public void Attack()
     {
-        Debug.Log("Attack");
+        if (Time.time < lastAttackTime + attackCooldown)
+            return;
+
+        lastAttackTime = Time.time;
+
+        float attackRadius = 1.5f; 
+        Vector3 origin = enemy.transform.position + enemy.transform.forward;
+        int damage = Random.Range(3, 12);
+
+        Collider[] hits = Physics.OverlapSphere(origin, attackRadius);
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Player"))
+            {
+                
+                PlayerHealth playerHealth = hit.GetComponent<PlayerHealth>();
+                
+
+                if (playerHealth != null && playerHealth.shieldActive == false)
+                {
+                    
+                        playerHealth.TakeDamage((int)damage);
+                        Debug.Log("Enemy hit player!");
+                       
+                    
+                  
+                }
+                else if (playerHealth != null && playerHealth.shieldActive)
+                {
+                    playerHealth.ShieldDie();
+                }
+            }
+            
+        }
+
+        Debug.DrawLine(enemy.transform.position, origin, Color.red, 1f);
+       
     }
 
   

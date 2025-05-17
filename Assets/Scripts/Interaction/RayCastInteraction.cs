@@ -28,8 +28,8 @@ public class RayCastInteraction : MonoBehaviour
 
         if (Physics.SphereCast(ray, sphereRadius, out RaycastHit hit, rayDistance, hitLayers))
         {
-            Debug.Log("Hit: " + hit.collider.name);
-            Debug.DrawLine(ray.origin, hit.point, Color.red); 
+            //Debug.Log("Hit: " + hit.collider.name);
+            //Debug.DrawLine(ray.origin, hit.point, Color.red); 
             if(hit.collider != null) 
             {
                 Interactable interactable = hit.collider.GetComponent<Interactable>();

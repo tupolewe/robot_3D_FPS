@@ -28,7 +28,7 @@ public class HeadBob : MonoBehaviour
         if (!_enable) return;
         CheckMotion();
         ResetPosition();
-        _camera.LookAt(FocusTarget());
+       // _camera.LookAt(FocusTarget());
     }
     private Vector3 FootStepMotion()
     {
