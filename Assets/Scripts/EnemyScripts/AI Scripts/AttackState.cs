@@ -63,7 +63,7 @@ public class AttackState : BaseState
 
         lastAttackTime = Time.time;
 
-        float attackRadius = 1.5f; 
+        float attackRadius = 3f; 
         Vector3 origin = enemy.transform.position + enemy.transform.forward;
         int damage = Random.Range(3, 12);
 

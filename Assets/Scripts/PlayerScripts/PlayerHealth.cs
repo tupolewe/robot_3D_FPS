@@ -4,16 +4,31 @@ public class PlayerHealth : MonoBehaviour
 {
     public int health = 100;
     public bool shieldActive;
+    public ShieldScript shield;
 
+    [SerializeField] private GameObject electricSparks;
+
+    public void Update()
+    {
+        
+    }
     public void TakeDamage(int amount)
     {
-        health -= amount;
-        Debug.Log("Player took damage: " + amount);
-
-        if (health <= 0)
+        if (shieldActive == false) 
         {
-            Die();
+            health -= amount;
+            Debug.Log("Player took damage: " + amount);
+
+            if (health <= 0)
+            {
+                Die();
+            }
         }
+        else if (shieldActive == true) 
+        {
+           shield.ShieldDestroy();
+        }
+       
     }
 
     void Die()
@@ -22,9 +37,13 @@ public class PlayerHealth : MonoBehaviour
         
     }
 
+
+
     public void ShieldDie()
     {
         shieldActive = false;
+        shield.ShieldDestroy();
         Debug.Log("shield desctricojdnads");
+
     }
 }
