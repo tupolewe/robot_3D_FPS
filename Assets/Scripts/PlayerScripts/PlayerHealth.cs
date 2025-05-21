@@ -37,12 +37,4 @@ public class PlayerHealth : MonoBehaviour
     }
 
 
-
-    //public void ShieldDie()
-    //{
-    //    shieldActive = false;
-    //    shield.ShieldDestroy();
-    //    Debug.Log("shield desctricojdnads");
-
-    //}
 }
