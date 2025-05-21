@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
 
         chController.Move(velocity * Time.deltaTime);
 
-        Debug.Log(targetSpeed);
+        //Debug.Log(targetSpeed);
 
     }
 
