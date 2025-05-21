@@ -3,6 +3,11 @@ using UnityEngine.InputSystem.XR;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private float walkSpeed = 6f;
+    [SerializeField] private float sprintSpeed = 9f;
+    [SerializeField] private float speedSmoothTime = 0.2f;
+    private float currentSpeed;
+    private float speedSmoothVelocity;
 
     [SerializeField] Transform playerCamera;
     [SerializeField][Range(0.0f, 0.5f)] float mouseSmoothTime = 0.03f;
@@ -34,8 +39,6 @@ public class PlayerMovement : MonoBehaviour
 
     public HeadBob headBob;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         chController = GetComponent<CharacterController>();
@@ -84,35 +87,18 @@ public class PlayerMovement : MonoBehaviour
 
         currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
 
-        velocityY += gravity * 2f * Time.deltaTime;
+        bool isSprinting = Input.GetKey(KeyCode.LeftShift);
+        float targetSpeed = isSprinting ? sprintSpeed : walkSpeed;
+        currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
-        if (Input.GetKey(KeyCode.LeftShift)) 
-        {
-           speed = 9;
-            headBob._frequency = 20f;
-        }
-        else 
-        {
-            speed = 6;
-            headBob._frequency = 16f;
-        }
+        velocityY += gravity * Time.deltaTime;
 
-        Vector3 velocity = (transform.forward * currentDir.y + transform.right * currentDir.x) * speed + Vector3.up * velocityY;
+        Vector3 velocity = (transform.forward * currentDir.y + transform.right * currentDir.x) * currentSpeed + Vector3.up * velocityY;
 
         chController.Move(velocity * Time.deltaTime);
 
-        if (isGrounded && Input.GetButtonDown("Jump"))
-        {
-            velocityY = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
+        Debug.Log(targetSpeed);
 
-        if (isGrounded! && chController.velocity.y < -1f)
-        {
-            velocityY = -8f;
-        }
-
-
-       
     }
 
     public void ApplyRecoil(float recoilX, float recoilY)

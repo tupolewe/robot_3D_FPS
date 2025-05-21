@@ -3,10 +3,9 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     public int health = 100;
-    //public bool shieldActive;
     public ShieldScript shield;
 
-    [SerializeField] private GameObject electricSparks;
+    
 
     public void Update()
     {
