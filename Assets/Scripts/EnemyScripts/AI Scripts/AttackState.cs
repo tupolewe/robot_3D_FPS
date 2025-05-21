@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.Image;
 
 public class AttackState : BaseState
 {
@@ -58,16 +59,20 @@ public class AttackState : BaseState
 
     public void Attack()
     {
+
+       
         if (Time.time < lastAttackTime + attackCooldown)
             return;
 
         lastAttackTime = Time.time;
 
-        float attackRadius = 3f; 
+        float attackRadius = 4f; 
         Vector3 origin = enemy.transform.position + enemy.transform.forward;
         int damage = Random.Range(3, 12);
 
         Collider[] hits = Physics.OverlapSphere(origin, attackRadius);
+
+       
 
         foreach (Collider hit in hits)
         {
@@ -75,9 +80,9 @@ public class AttackState : BaseState
             {
                 
                 PlayerHealth playerHealth = hit.GetComponent<PlayerHealth>();
-                
+                Debug.Log("try to attack");
 
-                if (playerHealth != null && playerHealth.shieldActive == false)
+                if (playerHealth != null)
                 {
                     
                         playerHealth.TakeDamage((int)damage);
@@ -86,17 +91,30 @@ public class AttackState : BaseState
                     
                   
                 }
-                else if (playerHealth != null && playerHealth.shieldActive)
-                {
-                    playerHealth.ShieldDie();
-                }
+                //else if (playerHealth != null && playerHealth.shieldActive)
+                //{
+                //    playerHealth.ShieldDie();
+                //}
             }
             
         }
 
         Debug.DrawLine(enemy.transform.position, origin, Color.red, 1f);
        
+
+
+       
+
     }
 
-  
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 origin = enemy.transform.position + enemy.transform.forward;
+        Gizmos.DrawWireSphere(origin, 3f); // Replace 3f with attackRadius if needed
+    }
+
+
 }

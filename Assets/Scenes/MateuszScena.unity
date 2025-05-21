@@ -124,6 +124,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6405446146044784465, guid: be440e6011b29bb498eef3d1f62ca022, type: 3}
   m_PrefabInstance: {fileID: 405365273}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &341126548 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8275182558438143545, guid: be440e6011b29bb498eef3d1f62ca022, type: 3}
+  m_PrefabInstance: {fileID: 405365273}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &405365273
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -175,6 +180,10 @@ PrefabInstance:
     - target: {fileID: 7597894008035770060, guid: be440e6011b29bb498eef3d1f62ca022, type: 3}
       propertyPath: m_Name
       value: ElectricityFieldMain
+      objectReference: {fileID: 0}
+    - target: {fileID: 8275182558438143545, guid: be440e6011b29bb498eef3d1f62ca022, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8275182558438143545, guid: be440e6011b29bb498eef3d1f62ca022, type: 3}
       propertyPath: InitialModule.maxNumParticles
@@ -574,7 +583,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  shieldActive: 1
   shield: {fileID: 1420076388}
   electricSparks: {fileID: 0}
 --- !u!4 &523777698 stripped
@@ -786,6 +794,9 @@ MonoBehaviour:
   isActive: 0
   src: {fileID: 1420076389}
   clip: {fileID: 8300000, guid: 9e10c262f784c9d45b96356183d4b242, type: 3}
+  clip2: {fileID: 8300000, guid: 9a40992df90f48e46a0c71217157fc96, type: 3}
+  clip3: {fileID: 8300000, guid: 25ee9051ad8dcf44689f8702e6793919, type: 3}
+  electricField: {fileID: 341126548}
   sparks1: {fileID: 1419744198}
   sparks2: {fileID: 722744695}
 --- !u!82 &1420076389
@@ -1446,7 +1457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4420062015651618930, guid: 92d81eed343b6144c9a9bc09aad13a5e, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 60.6
+      value: 121.74
       objectReference: {fileID: 0}
     - target: {fileID: 4420062015651618930, guid: 92d81eed343b6144c9a9bc09aad13a5e, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b

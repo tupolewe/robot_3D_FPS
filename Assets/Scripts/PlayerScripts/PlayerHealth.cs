@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     public int health = 100;
-    public bool shieldActive;
+    //public bool shieldActive;
     public ShieldScript shield;
 
     [SerializeField] private GameObject electricSparks;
@@ -14,7 +14,7 @@ public class PlayerHealth : MonoBehaviour
     }
     public void TakeDamage(int amount)
     {
-        if (shieldActive == false) 
+        if (shield.isActive == false) 
         {
             health -= amount;
             Debug.Log("Player took damage: " + amount);
@@ -24,7 +24,7 @@ public class PlayerHealth : MonoBehaviour
                 Die();
             }
         }
-        else if (shieldActive == true) 
+        else if (shield.isActive == true) 
         {
            shield.ShieldDestroy();
         }
@@ -39,11 +39,11 @@ public class PlayerHealth : MonoBehaviour
 
 
 
-    public void ShieldDie()
-    {
-        shieldActive = false;
-        shield.ShieldDestroy();
-        Debug.Log("shield desctricojdnads");
+    //public void ShieldDie()
+    //{
+    //    shieldActive = false;
+    //    shield.ShieldDestroy();
+    //    Debug.Log("shield desctricojdnads");
 
-    }
+    //}
 }
