@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
     public Vector3 lastKnownPlayerPosition;
     public float attackDistance;
 
+
+    public AudioSource src; 
     
     
     void Start()
@@ -31,11 +33,13 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         stateMachine.Initialise();
         player = GameObject.FindGameObjectWithTag("Player");
+        PlayIdleSound();
     }
 
    
     void Update()
     {
+       
         CanSeePlayer();
         currentState = stateMachine.activeState.ToString();
     }
@@ -103,6 +107,15 @@ public class Enemy : MonoBehaviour
         if(enemyHealth <= 0)
         {
             this.gameObject.SetActive(false);
+        }
+    }
+
+    public void PlayIdleSound()
+    {
+        if (currentState == "PatrolState")
+        {
+           
+            src.Play();
         }
     }
 }
