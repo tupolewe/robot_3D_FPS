@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Enemy : MonoBehaviour
 {
@@ -22,18 +23,24 @@ public class Enemy : MonoBehaviour
     public float fieldOfView;
     public Vector3 lastKnownPlayerPosition;
     public float attackDistance;
+    private bool playedOnce = false;
 
 
-    public AudioSource src; 
+    public AudioSource src;
+    public AudioSource src2;
+    public AudioClip idleClip;
+    public AudioClip attackClip;
+    public AudioClip dieClip;
     
     
     void Start()
     {
+        PlaySound();
         stateMachine = GetComponent<StateMachine>();
         agent = GetComponent<NavMeshAgent>();
         stateMachine.Initialise();
         player = GameObject.FindGameObjectWithTag("Player");
-        PlayIdleSound();
+        
     }
 
    
@@ -61,6 +68,8 @@ public class Enemy : MonoBehaviour
                         Debug.DrawLine(ray.origin, ray.direction * sightDistance);
                         if (hitInfo.transform.gameObject == player) 
                         {   lastKnownPlayerPosition = player.transform.position;
+                            PlayAttackSound();
+                            
                             return true;
                         }
                     }
@@ -110,12 +119,26 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void PlayIdleSound()
+    public void PlaySound()
     {
-        if (currentState == "PatrolState")
-        {
-           
+            src.loop = true;
+            src.volume = 0.2f;
+            src.clip = idleClip;
             src.Play();
+            Debug.Log("gra idle");
+        
+        
+    }
+    public void PlayAttackSound()
+    {
+       if (!playedOnce)
+        {
+            src2.volume = 0.1f;
+            src2.PlayOneShot(attackClip);
+            playedOnce = true;
+            PlaySound();
         }
+
+
     }
 }

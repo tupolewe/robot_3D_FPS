@@ -27,6 +27,7 @@ public class AttackState : BaseState
     {
         if (enemy.CanSeePlayer())
         {
+            
             losePlayerTimer = 0f;
             float distanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.player.transform.position);
 

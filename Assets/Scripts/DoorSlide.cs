@@ -18,6 +18,9 @@ public class SlidingDoor : MonoBehaviour
 
     private Rigidbody rb;
 
+    public ParticleSystem sparks1;
+    public ParticleSystem sparks2;
+
     private void Start()
     {
         closedPosition = transform.position;
@@ -84,11 +87,15 @@ public class SlidingDoor : MonoBehaviour
     {
         isOpening = true;
         PlaySound(openSound);
+        sparks1.Play();
+        sparks2.Play();
     }
 
     private void StartClosing()
     {
         isOpening = false;
+        sparks1.Play();
+        sparks2.Play();
         PlaySound(closeSound);
     }
 
