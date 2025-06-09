@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.EventSystems.EventTrigger;
@@ -7,6 +8,8 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class Enemy : MonoBehaviour
 {
     public int enemyHealth;
+
+    
 
     public StateMachine stateMachine;
     public NavMeshAgent agent;
@@ -105,6 +108,7 @@ public class Enemy : MonoBehaviour
 
   public void TakeDamege()
     {
+        stateMachine.activeState.DamageAnim();
         int damage = UnityEngine.Random.Range(5, 12);
 
         enemyHealth -= damage;
@@ -113,9 +117,13 @@ public class Enemy : MonoBehaviour
 
         Debug.Log(enemyHealth);
 
-        if(enemyHealth <= 0)
+        if (enemyHealth <= 0)
         {
-            this.gameObject.SetActive(false);
+            agent.isStopped = true;
+            stateMachine.activeState.PlayDeath();
+            stateMachine.enabled = false;
+            GetComponent<Collider>().enabled = false;
+            StartCoroutine(DieAfterDelay(1.5f));
         }
     }
 
@@ -141,4 +149,29 @@ public class Enemy : MonoBehaviour
 
 
     }
+
+    public void ResetDamageAnim(Animator anim, float delay)
+    {
+        StartCoroutine(ResetDamageTrigger(anim, delay));
+    }
+
+    private IEnumerator ResetDamageTrigger(Animator anim, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        anim.ResetTrigger("takesDamage?");
+    }
+
+    private IEnumerator DieAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        
+        if (dieClip != null)
+        {
+            src2.PlayOneShot(dieClip);
+        }
+
+        Destroy(gameObject);
+    }
+
 }

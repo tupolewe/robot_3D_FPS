@@ -35,6 +35,7 @@ public class AttackState : BaseState
             {
                 enemy.Agent.isStopped = false;
                 enemy.Agent.SetDestination(enemy.player.transform.position);
+                base.StopAttack();
             }
             else
             {
@@ -61,7 +62,7 @@ public class AttackState : BaseState
     public void Attack()
     {
 
-       
+        base.PlayAttack();
         if (Time.time < lastAttackTime + attackCooldown)
             return;
 
