@@ -21,8 +21,8 @@ public class RayCastInteraction : MonoBehaviour
     public void RayInteraction()
     {
 
-        
 
+        
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         
 
@@ -37,7 +37,6 @@ public class RayCastInteraction : MonoBehaviour
                 if (interactable != null && Input.GetKeyDown(KeyCode.E))
                 {
                     interactable.Interact();
-                    
                 }
                 
             }
