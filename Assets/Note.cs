@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +7,7 @@ public class Note : MonoBehaviour, Interactable
     [Header("UI Elements")]
     public GameObject noteUI;         
     public Image noteImage;           
-    public Text noteText;            
+    public TextMeshProUGUI noteText;            
 
     [TextArea]
     public string noteContent;        
@@ -23,6 +24,7 @@ public class Note : MonoBehaviour, Interactable
     
     public void Interact()
     {
+        
         if (noteUI == null || noteText == null) return;
 
         noteUI.SetActive(true);
