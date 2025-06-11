@@ -8,19 +8,24 @@ public class KeypadDoorKeyboard : MonoBehaviour, Interactable
     [SerializeField] private string correctCode = "1234";
 
     [Header("UI")]
-    [SerializeField] private GameObject keypadUI; // Panel UI
-    [SerializeField] private TMP_InputField inputField; // Pole do wpisania kodu
-    [SerializeField] private TextMeshProUGUI feedbackText; // Komunikat "b³êdny kod" (opcjonalnie)
+    [SerializeField] private GameObject keypadUI;
+    [SerializeField] private TMP_InputField inputField;
+    [SerializeField] private TextMeshProUGUI feedbackText;
 
     [Header("Drzwi")]
     [SerializeField] private Transform doorTransform;
-    [SerializeField] private Vector3 openOffset = new Vector3(0f, 3f, 0f); // Kierunek otwierania drzwi
+    [SerializeField] private Vector3 openOffset = new Vector3(0f, 3f, 0f);
     [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private AudioSource doorAudioSource;
+
+    [Header("Raycast")]
+    [SerializeField] private float interactionDistance = 3f;
+    [SerializeField] private Camera playerCamera; // Kamera gracza
 
     private Vector3 closedPosition;
     private Vector3 openPosition;
     private bool isUnlocked = false;
-    private bool playerInTrigger = false;
+    private bool hasPlayedOpenSound = false;
 
     private void Start()
     {
@@ -32,10 +37,29 @@ public class KeypadDoorKeyboard : MonoBehaviour, Interactable
 
         if (feedbackText != null)
             feedbackText.text = "";
+
+        if (doorAudioSource != null)
+            doorAudioSource.playOnAwake = false;
+
+        if (playerCamera == null)
+            playerCamera = Camera.main;
     }
 
     private void Update()
     {
+        // Raycast sprawdzaj¹cy, czy gracz patrzy na ten obiekt
+        if (!isUnlocked && Input.GetKeyDown(KeyCode.E))
+        {
+            Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, interactionDistance))
+            {
+                if (hit.transform == transform)
+                {
+                    OpenKeypad();
+                }
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             CloseKeypad();
@@ -43,13 +67,14 @@ public class KeypadDoorKeyboard : MonoBehaviour, Interactable
 
         if (isUnlocked)
         {
+            if (!hasPlayedOpenSound && doorAudioSource != null && !doorAudioSource.isPlaying)
+            {
+                doorAudioSource.Play();
+                hasPlayedOpenSound = true;
+            }
+
             doorTransform.position = Vector3.MoveTowards(doorTransform.position, openPosition, moveSpeed * Time.unscaledDeltaTime);
             return;
-        }
-
-        if (playerInTrigger && !keypadUI.activeSelf)
-        {
-            OpenKeypad();
         }
 
         if (keypadUI.activeSelf)
@@ -73,7 +98,7 @@ public class KeypadDoorKeyboard : MonoBehaviour, Interactable
             keypadUI.SetActive(true);
             inputField.text = "";
             inputField.ActivateInputField();
-            Time.timeScale = 0f; // Pauzuje grê
+            Time.timeScale = 0f;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -84,7 +109,7 @@ public class KeypadDoorKeyboard : MonoBehaviour, Interactable
         if (keypadUI != null)
             keypadUI.SetActive(false);
 
-        Time.timeScale = 1f; // Wznawia grê
+        Time.timeScale = 1f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -112,14 +137,5 @@ public class KeypadDoorKeyboard : MonoBehaviour, Interactable
     public void Interact()
     {
         OpenKeypad();
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInTrigger = false;
-            CloseKeypad();
-        }
     }
 }
