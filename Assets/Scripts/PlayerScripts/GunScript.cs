@@ -26,6 +26,7 @@ public class GunScript : MonoBehaviour
 
     public AudioClip shotSound;
     public AudioSource src;
+    public ParticleSystem shotVFX;
 
     void Start()
     {
@@ -55,6 +56,7 @@ public class GunScript : MonoBehaviour
     {
         Recoil();
         playerMovement.ApplyRecoil(recoilX, recoilY);
+        shotVFX.Play();
 
         // Raycast from the center of the player's camera
         Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // Middle of the screen

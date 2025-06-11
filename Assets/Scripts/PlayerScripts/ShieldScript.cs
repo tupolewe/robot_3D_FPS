@@ -18,7 +18,7 @@ public class ShieldScript : MonoBehaviour
     [Header("Shield Cooldown")]
     [SerializeField] private float cooldownDuration = 5f;
     private float cooldownTimer = 0f;
-    private bool isOnCooldown = false;
+    public bool isOnCooldown = false;
 
     private void Start()
     {
