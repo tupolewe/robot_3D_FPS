@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class KeypadDoorKeyboard : MonoBehaviour
+public class KeypadDoorKeyboard : MonoBehaviour, Interactable
 {
     [Header("Kod do wpisania (ustawiany w Inspectorze)")]
     [SerializeField] private string correctCode = "1234";
@@ -36,6 +36,11 @@ public class KeypadDoorKeyboard : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseKeypad();
+        }
+
         if (isUnlocked)
         {
             doorTransform.position = Vector3.MoveTowards(doorTransform.position, openPosition, moveSpeed * Time.unscaledDeltaTime);
@@ -104,12 +109,9 @@ public class KeypadDoorKeyboard : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Interact()
     {
-        if (other.CompareTag("Player"))
-        {
-            playerInTrigger = true;
-        }
+        OpenKeypad();
     }
 
     private void OnTriggerExit(Collider other)
