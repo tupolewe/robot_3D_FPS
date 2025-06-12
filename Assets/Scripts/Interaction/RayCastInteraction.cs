@@ -1,18 +1,23 @@
-
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class RayCastInteraction : MonoBehaviour
 {
-    public float sphereRadius;
-    public float rayDistance;
+    [Header("Raycast Settings")]
+    public float rayDistance = 3f;
     public LayerMask hitLayers;
 
-
+    [Header("Interaction")]
     public bool canInteract;
-    
 
-    // Update is called once per frame
+    private Camera cam;
+
+    void Start()
+    {
+        cam = Camera.main;
+        if (cam == null)
+            Debug.LogError("RayCastInteraction: No camera found!");
+    }
+
     void Update()
     {
         RayInteraction();
@@ -20,38 +25,28 @@ public class RayCastInteraction : MonoBehaviour
 
     public void RayInteraction()
     {
+        if (cam == null) return;
 
-        
+        // Ray from center of the screen
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-        
-
-        if (Physics.SphereCast(ray, sphereRadius, out RaycastHit hit, rayDistance, hitLayers))
+        if (Physics.Raycast(ray, out RaycastHit hit, rayDistance, hitLayers))
         {
-            //Debug.Log("Hit: " + hit.collider.name);
-            //Debug.DrawLine(ray.origin, hit.point, Color.red);
-            if (hit.collider != null) 
+            Debug.DrawLine(ray.origin, hit.point, Color.red);
+            Debug.Log("Hit: " + hit.collider.name);
+
+            Interactable interactable = hit.collider.GetComponent<Interactable>();
+            canInteract = interactable != null;
+
+            if (canInteract && Input.GetKeyDown(KeyCode.E))
             {
-                Interactable interactable = hit.collider.GetComponent<Interactable>();
-
-                if (interactable != null && Input.GetKeyDown(KeyCode.E))
-                {
-                    interactable.Interact();
-                    
-                }
-                
+                interactable.Interact();
             }
-         
-
         }
         else
         {
-            
-            Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.green);
+            canInteract = false;
+            Debug.DrawLine(ray.origin, ray.origin + ray.direction * rayDistance, Color.green);
         }
-
     }
-
-
-    
 }

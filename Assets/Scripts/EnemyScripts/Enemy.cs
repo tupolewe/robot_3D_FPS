@@ -141,7 +141,7 @@ public class Enemy : MonoBehaviour
     {
        if (!playedOnce)
         {
-            src2.volume = 0.1f;
+            src2.volume = 0.4f;
             src2.PlayOneShot(attackClip);
             playedOnce = true;
             PlaySound();

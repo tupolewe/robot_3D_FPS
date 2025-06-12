@@ -11,6 +11,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BoltonScena.unity
     guid: d0992c5ba6d64df4abbf51f143c72d32
+  - enabled: 1
+    path: Assets/Scenes/boltonscena2.unity
+    guid: 6205c6222df9f2b48a12c3725f3b852d
+  - enabled: 1
+    path: Assets/Scenes/EndingScene.unity
+    guid: 11696f35cd9bb9c4187f22a29d8e313e
+  - enabled: 1
+    path: Assets/Scenes/EndingScene2.unity
+    guid: c2eb2c980393f794f86facb12a745ceb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
