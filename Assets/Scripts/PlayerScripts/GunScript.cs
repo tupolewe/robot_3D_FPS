@@ -5,6 +5,7 @@ public class GunScript : MonoBehaviour
 {
     public StarterAssetsInputs _input;
     public Camera playerCamera;
+    public PlayerEnergy energy;
 
     public bool randomizeRecoil;
     public Vector2 randomRecoilConstraints;
@@ -54,33 +55,38 @@ public class GunScript : MonoBehaviour
 
     public void Shoot()
     {
-        Recoil();
-        playerMovement.ApplyRecoil(recoilX, recoilY);
-        shotVFX.Play();
-
-        // Raycast from the center of the player's camera
-        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // Middle of the screen
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 1000f))
+        if (energy.energyLvl > energy.shotCost) 
         {
-            Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red, 1f);
-            Debug.Log("Hit: " + hit.collider.name);
+            energy.energyLvl -= energy.shotCost;
+            Recoil();
+            playerMovement.ApplyRecoil(recoilX, recoilY);
+            shotVFX.Play();
 
-            if (hit.collider.GetComponent<Enemy>() != null)
+            // Raycast from the center of the player's camera
+            Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // Middle of the screen
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 1000f))
             {
+                Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red, 1f);
+                Debug.Log("Hit: " + hit.collider.name);
 
-                Enemy enemy = hit.collider.GetComponent<Enemy>();
-                enemy.TakeDamege();
+                if (hit.collider.GetComponent<Enemy>() != null)
+                {
+
+                    Enemy enemy = hit.collider.GetComponent<Enemy>();
+                    enemy.TakeDamege();
+                }
             }
-        }
-        else
-        {
-            Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.green, 0.2f);
-        }
+            else
+            {
+                Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.green, 0.2f);
+            }
 
-        src.pitch = Random.Range(1.1f, 1.2f);
-        src.PlayOneShot(shotSound);
+            src.pitch = Random.Range(1.1f, 1.2f);
+            src.PlayOneShot(shotSound);
+        }
+       
     }
 
     public void DetermineAim()

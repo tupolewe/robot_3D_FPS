@@ -3,6 +3,7 @@ using UnityEngine;
 public class ShieldScript : MonoBehaviour
 {
     public bool isActive;
+    public PlayerEnergy playerEnergy;
 
     [Header("Audio")]
     public AudioSource src;
@@ -48,16 +49,23 @@ public class ShieldScript : MonoBehaviour
 
     public void ActiveShield()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && !isActive && !isOnCooldown)
+        if(playerEnergy.energyLvl > playerEnergy.shieldCost)
         {
-            isActive = true;
-            electricField.Play();
+            if (Input.GetKeyDown(KeyCode.Q) && !isActive && !isOnCooldown)
+            {
 
-            src.PlayOneShot(clip2);
-            src.clip = clip3;
-            src.loop = true;
-            src.Play();
+                isActive = true;
+                playerEnergy.energyLvl -= playerEnergy.shieldCost;
+
+                electricField.Play();
+
+                src.PlayOneShot(clip2);
+                src.clip = clip3;
+                src.loop = true;
+                src.Play();
+            }
         }
+        
     }
 
     private void HandleCooldown()
