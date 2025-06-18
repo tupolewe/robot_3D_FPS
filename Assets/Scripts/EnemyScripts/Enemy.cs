@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
     public Vector3 lastKnownPlayerPosition;
     public float attackDistance;
     private bool playedOnce = false;
-    public RangeAttack rangeAttack;
+    
 
     public AudioSource src;
     public AudioSource src2;
