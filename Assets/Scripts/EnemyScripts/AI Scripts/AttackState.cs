@@ -9,13 +9,22 @@ public class AttackState : BaseState
 
     public float attackCooldown = 2f;
     public float lastAttackTime;
+    public RangeAttack rangeAttack;
 
     
-
+   
     public override void Enter()
     {
-        // Optional: set initial chase destination
         enemy.Agent.SetDestination(enemy.player.transform.position);
+
+        // Get RangeAttack component if this is a ranged enemy
+        if (enemy.CompareTag("RangeEnemy"))
+        {
+            rangeAttack = enemy.GetComponent<RangeAttack>();
+
+            if (rangeAttack == null)
+                Debug.LogWarning("RangeEnemy has no RangeAttack script attached!");
+        }
     }
 
     public override void Exit()
@@ -37,11 +46,23 @@ public class AttackState : BaseState
                 enemy.Agent.SetDestination(enemy.player.transform.position);
                 base.StopAttack();
             }
-            else
+            else if (enemy.CompareTag("Enemy"))
             {
                 enemy.Agent.velocity = new Vector3(0f, 0f, 0f);
                 enemy.Agent.isStopped = true;
                 Attack();
+            }
+            else if (enemy.CompareTag("RangeEnemy"))
+            {
+                enemy.Agent.velocity = Vector3.zero;
+                enemy.Agent.isStopped = true;
+
+                if (Time.time >= lastAttackTime + attackCooldown)
+                {
+                    lastAttackTime = Time.time;
+                    rangeAttack.PerformRangeAttack();
+                }
+
             }
             
             
@@ -108,6 +129,9 @@ public class AttackState : BaseState
        
 
     }
+
+
+   
 
 
 
