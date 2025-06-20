@@ -35,6 +35,7 @@ public class RayCastInteraction : MonoBehaviour
             Debug.DrawLine(ray.origin, hit.point, Color.red);
             //Debug.Log("Hit: " + hit.collider.name);
 
+
             Interactable interactable = hit.collider.GetComponent<Interactable>();
             canInteract = interactable != null;
 

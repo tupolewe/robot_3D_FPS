@@ -36,9 +36,9 @@ public class Note : MonoBehaviour, Interactable
         isShowing = true;
 
         // Optional: freeze player input
-        Time.timeScale = 0f;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        //Time.timeScale = 0f;
+        //Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
     }
 
     void Update()
@@ -57,7 +57,7 @@ public class Note : MonoBehaviour, Interactable
         isShowing = false;
 
         // Optional: unfreeze player input
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

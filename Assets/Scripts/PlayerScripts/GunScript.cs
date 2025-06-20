@@ -55,7 +55,7 @@ public class GunScript : MonoBehaviour
 
     public void Shoot()
     {
-        if (energy.energyLvl > energy.shotCost) 
+        if (energy.energyLvl >= energy.shotCost) 
         {
             energy.energyLvl -= energy.shotCost;
             Recoil();
