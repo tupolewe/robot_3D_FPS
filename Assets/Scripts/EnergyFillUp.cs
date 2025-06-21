@@ -5,6 +5,9 @@ public class EnergyFillUp : MonoBehaviour, Interactable
     public PlayerEnergy playerEnergy;
     public bool canCharge;
 
+
+  
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
