@@ -15,6 +15,8 @@ public class SlimeBulllet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        Debug.Log(other);
         if (other.CompareTag("Player"))
         {
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
@@ -25,11 +27,11 @@ public class SlimeBulllet : MonoBehaviour
             }
         }
 
-        if(other.CompareTag("RangeEnemy") == false)
-        {
-           SlimeCollisionAnim();
-            Destroy(gameObject);
-        }
+        //if(other.CompareTag("RangeEnemy") == false)
+        //{
+        //   SlimeCollisionAnim();
+        //    Destroy(gameObject);
+        //}
 
         
     }
