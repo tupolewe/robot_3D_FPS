@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.EventSystems.EventTrigger;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     public int enemyHealth;
 
@@ -106,28 +106,32 @@ public class Enemy : MonoBehaviour
     //    }
     //}
 
-  public void TakeDamege()
+
+public void TakeDamage(int damage)
+{
+    stateMachine.activeState.DamageAnim();
+
+    enemyHealth -= damage;
+
+    hasHeardPlayer = true;
+    lastKnownPlayerPosition = player.transform.position;
+
+    Debug.Log($"Enemy HP: {enemyHealth}");
+
+    if (enemyHealth <= 0)
     {
-        stateMachine.activeState.DamageAnim();
-        int damage = UnityEngine.Random.Range(5, 12);
+        agent.isStopped = true;
 
-        enemyHealth -= damage;
-        hasHeardPlayer = true;
-        lastKnownPlayerPosition = player.transform.position;
+        stateMachine.activeState.PlayDeath();
+        stateMachine.enabled = false;
 
-        Debug.Log(enemyHealth);
+        GetComponent<Collider>().enabled = false;
 
-        if (enemyHealth <= 0)
-        {
-            agent.isStopped = true;
-            stateMachine.activeState.PlayDeath();
-            stateMachine.enabled = false;
-            GetComponent<Collider>().enabled = false;
-            StartCoroutine(DieAfterDelay(1.5f));
-        }
+        StartCoroutine(DieAfterDelay(1.5f));
     }
+}
 
-    public void PlaySound()
+public void PlaySound()
     {
             src.loop = true;
             src.volume = 0.2f;

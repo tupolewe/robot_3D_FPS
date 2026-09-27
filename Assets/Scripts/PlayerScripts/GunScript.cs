@@ -29,6 +29,10 @@ public class GunScript : MonoBehaviour
     public AudioSource src;
     public ParticleSystem shotVFX;
 
+
+    [SerializeField] private int minDamage = 5;
+    [SerializeField] private int maxDamage = 12;
+
     void Start()
     {
         _input = transform.root.GetComponent<StarterAssetsInputs>();
@@ -55,38 +59,48 @@ public class GunScript : MonoBehaviour
 
     public void Shoot()
     {
-        if (energy.energyLvl >= energy.shotCost) 
+        if (energy.energyLvl < energy.shotCost)
+            return;
+
+        energy.energyLvl -= energy.shotCost;
+
+        Recoil();
+        playerMovement.ApplyRecoil(recoilX, recoilY);
+        shotVFX.Play();
+
+        Ray ray = playerCamera.ViewportPointToRay(
+            new Vector3(0.5f, 0.5f, 0)
+        );
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
         {
-            energy.energyLvl -= energy.shotCost;
-            Recoil();
-            playerMovement.ApplyRecoil(recoilX, recoilY);
-            shotVFX.Play();
+            Debug.DrawRay(
+                ray.origin,
+                ray.direction * hit.distance,
+                Color.red,
+                1f
+            );
 
-            // Raycast from the center of the player's camera
-            Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // Middle of the screen
-            RaycastHit hit;
+            
 
-            if (Physics.Raycast(ray, out hit, 1000f))
+            int damage = Random.Range(minDamage, maxDamage + 1);
+
+            if (hit.collider.TryGetComponent<IDamageable>(
+                out IDamageable damageable))
             {
-                Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red, 1f);
-                Debug.Log("Hit: " + hit.collider.name);
-
-                if (hit.collider.GetComponent<Enemy>() != null)
-                {
-
-                    Enemy enemy = hit.collider.GetComponent<Enemy>();
-                    enemy.TakeDamege();
-                }
+                damageable.TakeDamage(damage);
             }
-            else
-            {
-                Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.green, 0.2f);
-            }
-
-            src.pitch = Random.Range(1.1f, 1.2f);
-            src.PlayOneShot(shotSound);
         }
-       
+        else
+        {
+            Debug.DrawRay(
+                ray.origin,
+                ray.direction * 1000f,
+                Color.green,
+                0.2f
+            );
+        }
+
     }
 
     public void DetermineAim()
