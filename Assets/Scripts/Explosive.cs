@@ -60,9 +60,9 @@ public class Explosive : MonoBehaviour, IDamageable
     }
 
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawSphere(transform.position, explosionRadius);
-        Debug.Log("zaznacznoe");
-    }
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.DrawSphere(transform.position, explosionRadius);
+        
+    //}
 }

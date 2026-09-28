@@ -22,8 +22,8 @@ public class KeypadDoorKeyboard : MonoBehaviour, Interactable
     [SerializeField] private float interactionDistance = 3f;
     [SerializeField] private Camera playerCamera; // Kamera gracza
 
-    private Vector3 closedPosition;
-    private Vector3 openPosition;
+    public Vector3 closedPosition;
+    public Vector3 openPosition;
     private bool isUnlocked = false;
     private bool hasPlayedOpenSound = false;
 
@@ -67,13 +67,22 @@ public class KeypadDoorKeyboard : MonoBehaviour, Interactable
 
         if (isUnlocked)
         {
-            if (!hasPlayedOpenSound && doorAudioSource != null && !doorAudioSource.isPlaying)
+
+            if(this.gameObject.transform.position != openPosition)
             {
-                doorAudioSource.Play();
-                hasPlayedOpenSound = true;
+                
+                this.gameObject.transform.position = Vector3.MoveTowards(this.gameObject.transform.position, openPosition, moveSpeed * Time.deltaTime);
+                
             }
 
-            doorTransform.position = Vector3.MoveTowards(doorTransform.position, openPosition, moveSpeed * Time.unscaledDeltaTime);
+            
+            
+                doorAudioSource.Play();
+                hasPlayedOpenSound = true;
+            
+
+
+
             return;
         }
 

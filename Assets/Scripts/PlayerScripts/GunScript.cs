@@ -67,6 +67,7 @@ public class GunScript : MonoBehaviour
         Recoil();
         playerMovement.ApplyRecoil(recoilX, recoilY);
         shotVFX.Play();
+        src.PlayOneShot(shotSound);
 
         Ray ray = playerCamera.ViewportPointToRay(
             new Vector3(0.5f, 0.5f, 0)
